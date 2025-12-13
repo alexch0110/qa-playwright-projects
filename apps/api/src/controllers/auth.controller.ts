@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { prisma } from "../db/prisma";
+import { prisma } from "../../prisma/prisma-client";
 import { env } from "../config/env";
 
 export async function register(req: Request, res: Response) {

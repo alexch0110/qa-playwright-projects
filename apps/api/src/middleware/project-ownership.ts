@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../db/prisma";
+import { prisma } from "../../prisma/prisma-client";
 
 export async function checkOwnership(
   req: Request,

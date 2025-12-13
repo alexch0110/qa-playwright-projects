@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../db/prisma";
+import { prisma } from "../../prisma/prisma-client";
 
 export async function getTodos(req: Request, res: Response) {
   const todos = await prisma.todo.findMany({
