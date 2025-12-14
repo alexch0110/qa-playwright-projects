@@ -5,12 +5,19 @@ import {
   updateTodo,
   deleteTodo,
 } from "../controllers/todos.controller";
+import { asyncHandler } from "../utils/async-handler";
+import { validate } from "../middleware/validate";
+import {
+  todoCreateSchema,
+  todoUpdateSchema,
+  todoDeleteSchema,
+} from "../schemas/todos.schema";
 
 const router = Router({ mergeParams: true });
 
-router.get("/", getTodos);
-router.post("/", createTodo);
-router.put("/:id", updateTodo);
-router.delete("/:id", deleteTodo);
+router.get("/", asyncHandler(getTodos));
+router.post("/", validate(todoCreateSchema), asyncHandler(createTodo));
+router.put("/:id", validate(todoUpdateSchema), asyncHandler(updateTodo));
+router.delete("/:id", validate(todoDeleteSchema), asyncHandler(deleteTodo));
 
 export default router;

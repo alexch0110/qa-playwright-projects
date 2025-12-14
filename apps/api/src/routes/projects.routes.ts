@@ -8,19 +8,24 @@ import {
   deleteProject,
 } from "../controllers/projects.controller";
 import todoRoutes from "./todos.routes";
+import { asyncHandler } from "../utils/async-handler";
+import { validate } from "../middleware/validate";
+import {
+  projectCreateSchema,
+  projectUpdateSchema,
+} from "../schemas/projects.schema";
 
 const router = Router();
 
 router.use(auth);
 
-router.get("/", getProjects);
-router.post("/", createProject);
+router.get("/", asyncHandler(getProjects));
+router.post("/", validate(projectCreateSchema), asyncHandler(createProject));
 
-router.use(checkOwnership);
+router.use("/:id", asyncHandler(checkOwnership));
+router.put("/:id", validate(projectUpdateSchema), asyncHandler(updateProject));
+router.delete("/:id", asyncHandler(deleteProject));
 
-router.put("/:id", updateProject);
-router.delete("/:id", deleteProject);
-
-router.use("/:projectId/todos", todoRoutes);
+router.use("/:projectId/todos", asyncHandler(checkOwnership), todoRoutes);
 
 export default router;

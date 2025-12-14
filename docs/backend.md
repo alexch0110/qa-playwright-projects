@@ -57,7 +57,7 @@ Example:
 ```env
 PORT=3000
 JWT_SECRET=super-secret-key
-DATABASE_URL=url
+DATABASE_URL=file:./dev.db
 ```
 
 PORT  
@@ -124,3 +124,11 @@ http://localhost:3000
 - Automated tests do NOT rely on seed data
 - Test data is created dynamically via database helpers
 - Authorization is enforced via middleware
+
+---
+
+## Prisma client mode
+
+This project uses Prisma Client generator `provider = "prisma-client"` with SQLite driver adapter `@prisma/adapter-better-sqlite3`.
+
+Generated client output: `apps/api/generated/prisma` (import PrismaClient from there).
