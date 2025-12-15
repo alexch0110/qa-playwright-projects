@@ -30,3 +30,16 @@ export async function deleteProject(req: Request, res: Response) {
   await prisma.project.delete({ where: { id: Number(req.params.id) } });
   res.status(204).end();
 }
+
+export async function getProjectById(req: Request, res: Response) {
+  const project = await prisma.project.findUnique({
+    where: { id: Number(req.params.id) },
+    select: { id: true, name: true },
+  });
+
+  if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  res.json(project);
+}
