@@ -132,3 +132,31 @@ http://localhost:3000
 This project uses Prisma Client generator `provider = "prisma-client"` with SQLite driver adapter `@prisma/adapter-better-sqlite3`.
 
 Generated client output: `apps/api/generated/prisma` (import PrismaClient from there).
+
+---
+
+## Test-only endpoints
+
+For automated testing purposes, the backend exposes a special administrative endpoint
+that is **available only in test environment** (`NODE_ENV=test`).
+
+### Reset database
+
+```http
+POST /test/reset
+```
+
+This endpoint:
+
+- clears all database tables (users, projects, todos)
+- ensures deterministic and repeatable automated tests
+- is used by API and UI tests before each test case
+
+### Availability
+
+- Enabled only when `NODE_ENV === "test"`
+- Not available in development or production environments
+- Must never be exposed in production
+
+This approach allows tests to remain fully black-box
+without direct access to the database layer.

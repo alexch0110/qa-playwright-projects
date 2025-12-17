@@ -3,7 +3,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/auth.routes";
 import projectsRoutes from "./routes/projects.routes";
-import { errorHandler } from "./middleware/error-handler";
+import testRoutes from "./routes/test.routes";
 
 const app = express();
 
@@ -17,6 +17,8 @@ app.get("/health", (_req, res) => {
 app.use("/auth", authRoutes);
 app.use("/projects", projectsRoutes);
 
-app.use(errorHandler);
+if (process.env.NODE_ENV === "test") {
+  app.use("/__test__", testRoutes);
+}
 
 export default app;
