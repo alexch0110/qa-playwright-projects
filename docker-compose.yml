@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: ./apps/api
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      JWT_SECRET: "dev_secret_change_me"
+      DATABASE_URL: "file:/app/prisma/dev.db"
+      NODE_ENV: "development"
+    volumes:
+      - api_db:/app/prisma
+
+  web:
+    build:
+      context: ./apps/web
+      args:
+        VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  api_db:
