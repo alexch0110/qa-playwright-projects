@@ -31,7 +31,9 @@ RUN npm run build
 # ---- run ----
 FROM node:20-alpine AS run
 WORKDIR /app
-RUN apk add --no-cache openssl
+
+# openssl + curl (for healthcheck)
+RUN apk add --no-cache openssl curl
 
 ENV PORT=3000
 
@@ -41,5 +43,8 @@ COPY --from=build /app/package*.json ./
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/dist ./dist
 
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
+
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["./docker-entrypoint.sh"]

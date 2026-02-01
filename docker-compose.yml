@@ -6,7 +6,7 @@ services:
       - "3000:3000"
     environment:
       PORT: "3000"
-      JWT_SECRET: "dev_secret_change_me"
+      JWT_SECRET: "${JWT_SECRET}"
       DATABASE_URL: "file:/app/prisma/dev.db"
       NODE_ENV: "development"
     volumes:
