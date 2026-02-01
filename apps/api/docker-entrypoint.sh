@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "Running Prisma generate (safe if already generated)..."
+echo "Running Prisma generate..."
 npx prisma generate
 
 echo "Applying Prisma migrations..."

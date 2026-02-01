@@ -17,12 +17,7 @@ RUN apk add --no-cache openssl
 
 # bring installed deps
 COPY --from=deps /app/node_modules ./node_modules
-
-# bring source code
 COPY . .
-
-# generate prisma client (creates node_modules/@prisma/client stuff)
-RUN npx prisma generate
 
 # compile TS -> dist/
 RUN npm run build
