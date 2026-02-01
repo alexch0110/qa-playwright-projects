@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-echo "Running Prisma generate..."
-npx prisma generate
-
 echo "Applying Prisma migrations..."
 npx prisma migrate deploy
 

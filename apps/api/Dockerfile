@@ -19,6 +19,10 @@ RUN apk add --no-cache openssl
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# generate Prisma client
+ENV DATABASE_URL="file:./prisma/build.db"
+RUN npx prisma generate
+
 # compile TS -> dist/
 RUN npm run build
 
