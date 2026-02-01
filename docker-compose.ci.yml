@@ -6,11 +6,11 @@ services:
       DATABASE_URL: "file:/app/prisma/ci.db"
     volumes:
       - api_ci_db:/app/prisma
-  healthcheck:
-    test: ["CMD", "curl", "-fsS", "http://localhost:3000/health"]
-    interval: 3s
-    timeout: 2s
-    retries: 30
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/health"]
+      interval: 3s
+      timeout: 2s
+      retries: 30
 
 volumes:
   api_ci_db:
