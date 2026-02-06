@@ -4,7 +4,7 @@ import { prisma } from "../../prisma/prisma-client";
 export async function checkOwnership(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const rawId = req.params.projectId ?? req.params.id;
   const projectId = Number(rawId);
@@ -14,11 +14,15 @@ export async function checkOwnership(
   }
 
   const project = await prisma.project.findFirst({
-    where: { id: projectId, ownerId: req.userId },
-    select: { id: true },
+    where: { id: projectId },
+    select: { id: true, ownerId: true },
   });
 
   if (!project) {
+    return res.status(404).json({ message: "Project not found" });
+  }
+
+  if (project.ownerId !== req.userId) {
     return res
       .status(403)
       .json({ message: "Project owned by another user or not found" });

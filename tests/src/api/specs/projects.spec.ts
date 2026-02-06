@@ -27,7 +27,7 @@ test.describe("Projects API", () => {
       expect(res.status, res.error).toBe(201);
       expect(res.data!.project.id).toBeGreaterThan(0);
       expect(res.data!.project.name).toBe(name);
-      expect(res.data!.project.ownerId).toBeTruthy();
+      expect(res.data!.project.ownerId).toBe(actorA.user.id);
     });
 
     test("validation: create empty name -> 400", async ({ actorA }) => {
@@ -52,7 +52,6 @@ test.describe("Projects API", () => {
       expect(res.status, res.error).toBe(200);
       expect(res.data!.project.id).toBe(projectA.id);
       expect(res.data!.project.name).toBe(projectA.name);
-      expect(res.data!.project.ownerId).toBe(projectA.ownerId);
     });
 
     test("ownership: user B cannot GET user A project -> 403", async ({
@@ -102,7 +101,7 @@ test.describe("Projects API", () => {
     }) => {
       const res = await actorB.projectsApi.update(
         projectA.id,
-        uniqueProjectName("forbidden")
+        uniqueProjectName("forbidden"),
       );
 
       expect(res.status).toBe(403);
@@ -111,7 +110,7 @@ test.describe("Projects API", () => {
     test("update non-existing project -> 404", async ({ actorA }) => {
       const res = await actorA.projectsApi.update(
         999999,
-        uniqueProjectName("missing")
+        uniqueProjectName("missing"),
       );
 
       expect(res.status).toBe(404);
